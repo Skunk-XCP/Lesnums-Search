@@ -1,0 +1,390 @@
+[
+  {
+    "id": "test-samsung-galaxy-s25-ultra",
+    "title": "Test Samsung Galaxy S25 Ultra : le smartphone Android sans compromis",
+    "url": "https://example.com/tests/samsung-galaxy-s25-ultra",
+    "type": "test",
+    "brand": "Samsung",
+    "category": "Smartphone",
+    "description": "Notre test complet du Galaxy S25 Ultra, de son écran AMOLED à ses performances photo et son autonomie.",
+    "publishedAt": "2026-01-28"
+  },
+  {
+    "id": "news-iphone-17-pro",
+    "title": "iPhone 17 Pro : les nouveautés annoncées par Apple",
+    "url": "https://example.com/news/iphone-17-pro-nouveautes",
+    "type": "news",
+    "brand": "Apple",
+    "category": "Smartphone",
+    "description": "Apple dévoile sa nouvelle génération d'iPhone Pro avec une puce plus rapide et un module photo remanié.",
+    "publishedAt": "2025-09-09"
+  },
+  {
+    "id": "guide-smartphones-photo",
+    "title": "Quels sont les meilleurs smartphones pour la photo ?",
+    "url": "https://example.com/guides/meilleurs-smartphones-photo",
+    "type": "guide",
+    "category": "Smartphone",
+    "description": "Notre sélection de téléphones doués en photo pour tous les budgets, de Google à Apple et Samsung.",
+    "publishedAt": "2026-03-12"
+  },
+  {
+    "id": "product-google-pixel-10-pro",
+    "title": "Google Pixel 10 Pro",
+    "url": "https://example.com/produits/google-pixel-10-pro",
+    "type": "product",
+    "brand": "Google",
+    "category": "Smartphone",
+    "description": "Fiche technique, prix et caractéristiques du smartphone Google Pixel 10 Pro.",
+    "publishedAt": "2025-08-20"
+  },
+  {
+    "id": "test-lg-oled-c5",
+    "title": "Test LG OLED C5 : un téléviseur très complet pour le cinéma et le jeu",
+    "url": "https://example.com/tests/lg-oled-c5",
+    "type": "test",
+    "brand": "LG",
+    "category": "Téléviseur",
+    "description": "Mesures de luminosité, fidélité des couleurs, contraste et retard à l'affichage du TV OLED LG C5.",
+    "publishedAt": "2025-05-16"
+  },
+  {
+    "id": "guide-tv-oled",
+    "title": "Comparatif : les meilleurs téléviseurs OLED",
+    "url": "https://example.com/guides/meilleurs-televiseurs-oled",
+    "type": "guide",
+    "category": "Téléviseur",
+    "description": "Les TV OLED les plus convaincants selon nos tests, avec des modèles LG, Samsung, Sony et Panasonic.",
+    "publishedAt": "2026-02-02"
+  },
+  {
+    "id": "news-samsung-qd-oled",
+    "title": "Samsung améliore ses téléviseurs QD-OLED avec une dalle plus lumineuse",
+    "url": "https://example.com/news/samsung-qd-oled-luminosite",
+    "type": "news",
+    "brand": "Samsung",
+    "category": "Téléviseur",
+    "description": "La nouvelle génération de dalles QD-OLED promet une meilleure luminosité et moins de reflets.",
+    "publishedAt": "2026-01-07"
+  },
+  {
+    "id": "product-sony-bravia-8-ii",
+    "title": "Sony Bravia 8 II",
+    "url": "https://example.com/produits/sony-bravia-8-ii",
+    "type": "product",
+    "brand": "Sony",
+    "category": "Téléviseur",
+    "description": "Caractéristiques et informations du téléviseur QD-OLED Sony Bravia 8 II compatible Dolby Vision.",
+    "publishedAt": "2025-04-10"
+  },
+  {
+    "id": "test-nvidia-rtx-5080",
+    "title": "Test Nvidia GeForce RTX 5080 : la carte graphique 4K nouvelle génération",
+    "url": "https://example.com/tests/nvidia-geforce-rtx-5080",
+    "type": "test",
+    "brand": "Nvidia",
+    "category": "Carte graphique",
+    "description": "Performances en jeu, ray tracing, DLSS et consommation de la GeForce RTX 5080 passés au crible.",
+    "publishedAt": "2025-01-29"
+  },
+  {
+    "id": "news-amd-radeon-rx-9070",
+    "title": "AMD lance les Radeon RX 9070 pour concurrencer les GPU GeForce RTX",
+    "url": "https://example.com/news/amd-radeon-rx-9070",
+    "type": "news",
+    "brand": "AMD",
+    "category": "Carte graphique",
+    "description": "Architecture RDNA, performances attendues et tarifs des nouvelles cartes graphiques Radeon.",
+    "publishedAt": "2025-03-01"
+  },
+  {
+    "id": "guide-carte-graphique-1440p",
+    "title": "Quelle carte graphique choisir pour jouer en 1440p ?",
+    "url": "https://example.com/guides/carte-graphique-1440p",
+    "type": "guide",
+    "category": "Carte graphique",
+    "description": "Conseils et sélection de GPU Nvidia et AMD adaptés au jeu en définition 1440p.",
+    "publishedAt": "2026-02-18"
+  },
+  {
+    "id": "product-asus-rtx-5070-ti",
+    "title": "Asus TUF Gaming GeForce RTX 5070 Ti",
+    "url": "https://example.com/produits/asus-tuf-rtx-5070-ti",
+    "type": "product",
+    "brand": "Asus",
+    "category": "Carte graphique",
+    "description": "Fiche produit de la carte graphique Asus TUF Gaming RTX 5070 Ti avec 16 Go de mémoire.",
+    "publishedAt": "2025-02-20"
+  },
+  {
+    "id": "test-sony-wh-1000xm6",
+    "title": "Test Sony WH-1000XM6 : la réduction de bruit se perfectionne",
+    "url": "https://example.com/tests/sony-wh-1000xm6",
+    "type": "test",
+    "brand": "Sony",
+    "category": "Casque audio",
+    "description": "Qualité sonore, confort, autonomie et réduction de bruit active du casque Bluetooth Sony.",
+    "publishedAt": "2025-05-15"
+  },
+  {
+    "id": "guide-casques-bluetooth",
+    "title": "Les meilleurs casques Bluetooth à réduction de bruit",
+    "url": "https://example.com/guides/meilleurs-casques-bluetooth",
+    "type": "guide",
+    "category": "Casque audio",
+    "description": "Comparatif des casques sans fil Sony, Bose, Apple et Sennheiser pour écouter sa musique au calme.",
+    "publishedAt": "2026-01-19"
+  },
+  {
+    "id": "news-airpods-max-usbc",
+    "title": "AirPods Max USB-C : Apple ajoute l'audio sans perte",
+    "url": "https://example.com/news/airpods-max-usb-c-audio-sans-perte",
+    "type": "news",
+    "brand": "Apple",
+    "category": "Casque audio",
+    "description": "Une mise à jour apporte de nouvelles fonctions audio au casque circum-aural d'Apple.",
+    "publishedAt": "2025-03-25"
+  },
+  {
+    "id": "product-bose-quietcomfort-ultra",
+    "title": "Bose QuietComfort Ultra Headphones",
+    "url": "https://example.com/produits/bose-quietcomfort-ultra",
+    "type": "product",
+    "brand": "Bose",
+    "category": "Casque audio",
+    "description": "Casque Bluetooth haut de gamme avec réduction de bruit active et audio spatial.",
+    "publishedAt": "2024-10-06"
+  },
+  {
+    "id": "test-roborock-saros-10",
+    "title": "Test Roborock Saros 10 : un aspirateur robot fin et méthodique",
+    "url": "https://example.com/tests/roborock-saros-10",
+    "type": "test",
+    "brand": "Roborock",
+    "category": "Aspirateur robot",
+    "description": "Navigation, aspiration, lavage et entretien de la station du robot aspirateur Roborock.",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "guide-aspirateurs-robots",
+    "title": "Comparatif des meilleurs aspirateurs robots laveurs",
+    "url": "https://example.com/guides/meilleurs-aspirateurs-robots",
+    "type": "guide",
+    "category": "Aspirateur robot",
+    "description": "Notre guide pour choisir un robot aspirateur capable de laver efficacement les sols.",
+    "publishedAt": "2026-03-05"
+  },
+  {
+    "id": "news-dreame-robot-bras",
+    "title": "Dreame présente un aspirateur robot équipé d'un bras articulé",
+    "url": "https://example.com/news/dreame-robot-bras-articule",
+    "type": "news",
+    "brand": "Dreame",
+    "category": "Aspirateur robot",
+    "description": "Le constructeur imagine un robot capable de déplacer de petits objets avant de nettoyer le sol.",
+    "publishedAt": "2026-01-08"
+  },
+  {
+    "id": "product-irobot-roomba-max-705",
+    "title": "iRobot Roomba Max 705 Combo",
+    "url": "https://example.com/produits/irobot-roomba-max-705-combo",
+    "type": "product",
+    "brand": "iRobot",
+    "category": "Aspirateur robot",
+    "description": "Robot aspirateur laveur avec station automatique de vidage et nettoyage de la serpillière.",
+    "publishedAt": "2025-07-02"
+  },
+  {
+    "id": "test-samsung-990-evo-plus",
+    "title": "Test Samsung 990 Evo Plus 2 To : un SSD NVMe rapide et endurant",
+    "url": "https://example.com/tests/samsung-990-evo-plus-2to",
+    "type": "test",
+    "brand": "Samsung",
+    "category": "SSD",
+    "description": "Débits, température et endurance du SSD M.2 NVMe Samsung de 2 To.",
+    "publishedAt": "2025-02-14"
+  },
+  {
+    "id": "guide-ssd-pcie-4",
+    "title": "Quels sont les meilleurs SSD NVMe PCIe 4.0 ?",
+    "url": "https://example.com/guides/meilleurs-ssd-nvme-pcie-4",
+    "type": "guide",
+    "category": "SSD",
+    "description": "Comparatif de SSD internes performants pour accélérer un PC fixe ou portable.",
+    "publishedAt": "2026-02-25"
+  },
+  {
+    "id": "news-ssd-pcie-6",
+    "title": "Les premiers SSD PCIe 6.0 promettent des débits records",
+    "url": "https://example.com/news/premiers-ssd-pcie-6",
+    "type": "news",
+    "category": "SSD",
+    "description": "Les contrôleurs de nouvelle génération préparent des unités de stockage encore plus rapides.",
+    "publishedAt": "2026-04-03"
+  },
+  {
+    "id": "product-crucial-t500",
+    "title": "Crucial T500 2 To",
+    "url": "https://example.com/produits/crucial-t500-2to",
+    "type": "product",
+    "brand": "Crucial",
+    "category": "SSD",
+    "description": "SSD M.2 NVMe PCIe 4.0 de 2 To avec mémoire TLC et dissipateur optionnel.",
+    "publishedAt": "2024-05-22"
+  },
+  {
+    "id": "test-macbook-air-m4",
+    "title": "Test Apple MacBook Air M4 : le portable polyvalent gagne en puissance",
+    "url": "https://example.com/tests/apple-macbook-air-m4",
+    "type": "test",
+    "brand": "Apple",
+    "category": "Ordinateur portable",
+    "description": "Performances, écran, autonomie et connectique du MacBook Air équipé de la puce Apple M4.",
+    "publishedAt": "2025-03-12"
+  },
+  {
+    "id": "guide-pc-portables-etudiants",
+    "title": "Les meilleurs ordinateurs portables pour les étudiants",
+    "url": "https://example.com/guides/pc-portables-etudiants",
+    "type": "guide",
+    "category": "Ordinateur portable",
+    "description": "Des PC portables légers, autonomes et abordables pour travailler à l'université.",
+    "publishedAt": "2025-08-18"
+  },
+  {
+    "id": "news-snapdragon-x2-elite",
+    "title": "Snapdragon X2 Elite : Qualcomm accélère ses puces pour PC portables",
+    "url": "https://example.com/news/snapdragon-x2-elite-pc",
+    "type": "news",
+    "brand": "Qualcomm",
+    "category": "Ordinateur portable",
+    "description": "La nouvelle puce ARM vise davantage de performances tout en préservant l'autonomie.",
+    "publishedAt": "2025-09-24"
+  },
+  {
+    "id": "product-lenovo-yoga-slim-7",
+    "title": "Lenovo Yoga Slim 7 14 pouces",
+    "url": "https://example.com/produits/lenovo-yoga-slim-7-14",
+    "type": "product",
+    "brand": "Lenovo",
+    "category": "Ordinateur portable",
+    "description": "Ultraportable avec écran OLED, processeur AMD Ryzen et châssis en aluminium.",
+    "publishedAt": "2025-10-15"
+  },
+  {
+    "id": "test-canon-eos-r6-mark-iii",
+    "title": "Test Canon EOS R6 Mark III : un appareil photo hybride très réactif",
+    "url": "https://example.com/tests/canon-eos-r6-mark-iii",
+    "type": "test",
+    "brand": "Canon",
+    "category": "Appareil photo",
+    "description": "Qualité d'image, autofocus et vidéo du nouvel appareil photo hybride plein format Canon.",
+    "publishedAt": "2025-11-04"
+  },
+  {
+    "id": "guide-apn-hybrides",
+    "title": "Les meilleurs appareils photo hybrides pour débuter",
+    "url": "https://example.com/guides/appareils-photo-hybrides-debutants",
+    "type": "guide",
+    "category": "Appareil photo",
+    "description": "Une sélection d'APN hybrides simples à prendre en main chez Canon, Nikon, Sony et Fujifilm.",
+    "publishedAt": "2026-01-30"
+  },
+  {
+    "id": "news-sony-alpha-7-v",
+    "title": "Sony Alpha 7 V : un nouvel appareil photo plein format polyvalent",
+    "url": "https://example.com/news/sony-alpha-7-v",
+    "type": "news",
+    "brand": "Sony",
+    "category": "Appareil photo",
+    "description": "Sony renouvelle son hybride généraliste avec un autofocus enrichi et une vidéo améliorée.",
+    "publishedAt": "2025-12-02"
+  },
+  {
+    "id": "product-fujifilm-x-m5",
+    "title": "Fujifilm X-M5",
+    "url": "https://example.com/produits/fujifilm-x-m5",
+    "type": "product",
+    "brand": "Fujifilm",
+    "category": "Appareil photo",
+    "description": "Appareil photo hybride compact APS-C conçu pour la photo et la création vidéo.",
+    "publishedAt": "2024-10-14"
+  },
+  {
+    "id": "test-garmin-fenix-8",
+    "title": "Test Garmin Fenix 8 : la montre sportive taillée pour l'aventure",
+    "url": "https://example.com/tests/garmin-fenix-8",
+    "type": "test",
+    "brand": "Garmin",
+    "category": "Montre connectée",
+    "description": "GPS, suivi sportif, cartographie et autonomie de la montre connectée Garmin haut de gamme.",
+    "publishedAt": "2024-09-20"
+  },
+  {
+    "id": "guide-montres-connectees",
+    "title": "Quelle montre connectée choisir pour le sport ?",
+    "url": "https://example.com/guides/montres-connectees-sport",
+    "type": "guide",
+    "category": "Montre connectée",
+    "description": "Notre sélection de montres Apple, Garmin, Samsung et Polar selon votre activité.",
+    "publishedAt": "2026-03-20"
+  },
+  {
+    "id": "news-apple-watch-hypertension",
+    "title": "Apple Watch : le suivi de l'hypertension arrive en Europe",
+    "url": "https://example.com/news/apple-watch-hypertension-europe",
+    "type": "news",
+    "brand": "Apple",
+    "category": "Montre connectée",
+    "description": "Une nouvelle fonction de santé complète le suivi cardiaque de la montre connectée.",
+    "publishedAt": "2026-02-11"
+  },
+  {
+    "id": "product-samsung-galaxy-watch-8",
+    "title": "Samsung Galaxy Watch 8",
+    "url": "https://example.com/produits/samsung-galaxy-watch-8",
+    "type": "product",
+    "brand": "Samsung",
+    "category": "Montre connectée",
+    "description": "Montre Wear OS avec suivi de santé, GPS et écran AMOLED.",
+    "publishedAt": "2025-07-09"
+  },
+  {
+    "id": "test-sonos-arc-ultra",
+    "title": "Test Sonos Arc Ultra : une barre de son immersive et puissante",
+    "url": "https://example.com/tests/sonos-arc-ultra",
+    "type": "test",
+    "brand": "Sonos",
+    "category": "Barre de son",
+    "description": "Rendu Dolby Atmos, dialogues, graves et ergonomie de la barre de son Sonos Arc Ultra.",
+    "publishedAt": "2024-11-22"
+  },
+  {
+    "id": "guide-barres-son",
+    "title": "Les meilleures barres de son Dolby Atmos",
+    "url": "https://example.com/guides/meilleures-barres-son-dolby-atmos",
+    "type": "guide",
+    "category": "Barre de son",
+    "description": "Des solutions audio pour améliorer le son du téléviseur, du modèle compact au home cinéma.",
+    "publishedAt": "2026-02-08"
+  },
+  {
+    "id": "news-bluetooth-auracast-tv",
+    "title": "Bluetooth Auracast veut simplifier l'écoute à plusieurs sur les TV",
+    "url": "https://example.com/news/bluetooth-auracast-tv",
+    "type": "news",
+    "category": "Audio",
+    "description": "La technologie BT Auracast permet de diffuser le son d'un téléviseur vers plusieurs appareils.",
+    "publishedAt": "2025-06-03"
+  },
+  {
+    "id": "product-jbl-bar-1300mk2",
+    "title": "JBL Bar 1300MK2",
+    "url": "https://example.com/produits/jbl-bar-1300mk2",
+    "type": "product",
+    "brand": "JBL",
+    "category": "Barre de son",
+    "description": "Barre de son Dolby Atmos avec enceintes surround détachables et caisson sans fil.",
+    "publishedAt": "2025-09-05"
+  }
+]

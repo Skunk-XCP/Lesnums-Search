@@ -1,0 +1,16 @@
+services:
+  meilisearch:
+    image: getmeili/meilisearch:v1.15
+    container_name: lesnumeriques-meilisearch
+    restart: unless-stopped
+    ports:
+      - "7700:7700"
+    environment:
+      MEILI_ENV: development
+      MEILI_MASTER_KEY: ${MEILISEARCH_API_KEY:-local-development-key}
+      MEILI_NO_ANALYTICS: "true"
+    volumes:
+      - meilisearch_data:/meili_data
+
+volumes:
+  meilisearch_data:

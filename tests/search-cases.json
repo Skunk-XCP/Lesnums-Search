@@ -1,0 +1,71 @@
+[
+  {
+    "query": "lg",
+    "expectedTopBrand": "LG",
+    "minimumHits": 2,
+    "requireBrandBeforeTextOnly": true
+  },
+  {
+    "query": "lg 83g6",
+    "expectedTopBrand": "LG",
+    "expectedModel": "83G6",
+    "minimumHits": 2,
+    "requireAllHitsModel": true,
+    "forbiddenTitleTerms": ["S20A", "Gram Superslim", "55G5"]
+  },
+  {
+    "query": "sony",
+    "expectedTopBrand": "Sony",
+    "minimumHits": 2,
+    "requireBrandBeforeTextOnly": true
+  },
+  {
+    "query": "sony wh-1000xm6",
+    "maximumHits": 0
+  },
+  {
+    "query": "samsung",
+    "expectedTopBrand": "Samsung",
+    "minimumHits": 2,
+    "requireBrandBeforeTextOnly": true
+  },
+  {
+    "query": "samsung s95f",
+    "expectedTopBrand": "Samsung",
+    "expectedModel": "S95F",
+    "minimumHits": 1,
+    "requireAllHitsModel": true
+  },
+  {
+    "query": "sony oled",
+    "expectedTopBrand": "Sony"
+  },
+  {
+    "query": "sony casque",
+    "expectedTopBrand": "Sony"
+  },
+  {
+    "query": "samsung galaxy",
+    "expectedTopBrand": "Samsung"
+  },
+  {
+    "query": "samsung oled",
+    "expectedTopBrand": "Samsung"
+  },
+  {
+    "query": "lg oled",
+    "expectedTopBrand": "LG"
+  },
+  {
+    "query": "xiaomi smartphone",
+    "expectedTopBrand": "Xiaomi"
+  },
+  {
+    "query": "asus laptop",
+    "expectedTopBrand": "Asus"
+  },
+  {
+    "query": "sony vs bose",
+    "minimumHits": 1
+  }
+]
