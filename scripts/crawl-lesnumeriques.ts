@@ -3,6 +3,7 @@ import { load } from "cheerio";
 import { createHash } from "node:crypto";
 import { mkdir, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 import robotsParser from "robots-parser";
 
 import {
@@ -31,7 +32,7 @@ const REQUEST_TIMEOUT_MS = 20_000;
 const MAX_METADATA_BYTES = 500_000;
 const MAX_SITEMAP_BYTES = 10_000_000;
 
-type Candidate = {
+export type Candidate = {
   url: string;
   sitemapType: ContentType;
   targetBrand?: KnownBrand;
@@ -195,6 +196,44 @@ function extractBrand(product: JsonLdNode | undefined) {
   return canonicalizeKnownBrand(extractedBrand) ?? extractedBrand;
 }
 
+function extractStructuredImage(value: unknown): string | undefined {
+  if (typeof value === "string") return asNonEmptyString(value);
+  if (Array.isArray(value)) {
+    return value.map(extractStructuredImage).find(Boolean);
+  }
+
+  const image = asRecord(value);
+  if (!image) return undefined;
+  return (
+    asNonEmptyString(image.url) ??
+    asNonEmptyString(image.contentUrl) ??
+    extractStructuredImage(image.image)
+  );
+}
+
+function normalizeImageUrl(value: string | undefined, pageUrl: string) {
+  if (!value) return undefined;
+
+  try {
+    const imageUrl = new URL(value, pageUrl);
+    const normalizedPath = imageUrl.pathname.toLowerCase();
+    const isTrustedHost = imageUrl.hostname === "cdn.lesnumeriques.com";
+    const looksDecorative = /(?:^|[-_/])(logo|icon|avatar|picto|sprite)(?:[-_.\/]|$)/.test(
+      normalizedPath,
+    );
+    const isSupportedFormat = /\.(?:avif|jpe?g|png|webp)$/.test(normalizedPath);
+
+    return imageUrl.protocol === "https:" &&
+      isTrustedHost &&
+      isSupportedFormat &&
+      !looksDecorative
+      ? imageUrl.href
+      : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 function inferBrandFromTitle(
   title: string,
   url: string,
@@ -288,7 +327,7 @@ function createDocumentId(url: string) {
   return createHash("sha256").update(url).digest("hex").slice(0, 24);
 }
 
-function extractDocument(html: string, candidate: Candidate, responseUrl: string) {
+export function extractDocument(html: string, candidate: Candidate, responseUrl: string) {
   const { $, nodes } = parseJsonLdScripts(html);
   const article = findJsonLdNode(nodes, ["NewsArticle", "Article"]);
   const product = findJsonLdNode(nodes, ["Product"]);
@@ -330,6 +369,15 @@ function extractDocument(html: string, candidate: Candidate, responseUrl: string
   const category = extractCategory(nodes);
   const content = candidate.isControl ? extractMentionSnippet($, brand) : undefined;
   const identity = inferProductIdentity(title, brand);
+  const imageUrl = normalizeImageUrl(
+    asNonEmptyString($("meta[property='og:image']").attr("content")) ??
+      extractStructuredImage(article?.image) ??
+      extractStructuredImage(product?.image) ??
+      extractStructuredImage(webPage?.primaryImageOfPage) ??
+      asNonEmptyString($("meta[name='twitter:image']").attr("content")) ??
+      asNonEmptyString($("link[rel='image_src']").attr("href")),
+    canonicalUrl,
+  );
 
   return {
     id: createDocumentId(canonicalUrl),
@@ -343,10 +391,11 @@ function extractDocument(html: string, candidate: Candidate, responseUrl: string
     ...(description ? { description } : {}),
     ...(content ? { content } : {}),
     ...(publishedAt ? { publishedAt } : {}),
+    ...(imageUrl ? { imageUrl } : {}),
   } satisfies SearchDocument;
 }
 
-async function readMetadataHtml(response: Response, includeContent: boolean) {
+export async function readMetadataHtml(response: Response, includeContent: boolean) {
   if (!response.body) return "";
 
   const reader = response.body.getReader();
@@ -762,8 +811,14 @@ async function main() {
   }
 }
 
-main().catch((error: unknown) => {
-  const message = error instanceof Error ? error.message : String(error);
-  console.error(`Erreur du crawler : ${message}`);
-  process.exitCode = 1;
-});
+const executedScript = process.argv[1]
+  ? pathToFileURL(path.resolve(process.argv[1])).href
+  : undefined;
+
+if (executedScript === import.meta.url) {
+  main().catch((error: unknown) => {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(`Erreur du crawler : ${message}`);
+    process.exitCode = 1;
+  });
+}

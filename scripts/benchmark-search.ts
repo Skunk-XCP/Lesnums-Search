@@ -7,7 +7,7 @@ import {
   normalizeSearchText,
   type KnownBrand,
 } from "../src/config/search";
-import type { SearchApiResponse } from "../src/types/search";
+import type { ContentType, SearchApiResponse } from "../src/types/search";
 
 loadEnvConfig(process.cwd());
 
@@ -19,6 +19,8 @@ type SearchCase = {
   query: string;
   expectedTopBrand?: KnownBrand;
   expectedModel?: string;
+  expectedTopType?: ContentType;
+  expectRelatedTest?: boolean;
   minimumHits?: number;
   maximumHits?: number;
   requireAllHitsModel?: boolean;
@@ -37,6 +39,12 @@ function isSearchCase(value: unknown): value is SearchCase {
         canonicalizeKnownBrand(candidate.expectedTopBrand) !== undefined)) &&
     (candidate.expectedModel === undefined ||
       typeof candidate.expectedModel === "string") &&
+    (candidate.expectedTopType === undefined ||
+      ["test", "news", "guide", "product"].includes(
+        candidate.expectedTopType as string,
+      )) &&
+    (candidate.expectRelatedTest === undefined ||
+      typeof candidate.expectRelatedTest === "boolean") &&
     (candidate.minimumHits === undefined ||
       typeof candidate.minimumHits === "number") &&
     (candidate.maximumHits === undefined ||
@@ -101,6 +109,16 @@ async function runCase(searchCase: SearchCase) {
     failures.push(
       `première référence attendue : ${searchCase.expectedModel}, reçue : ${topHit?.model ?? "aucune"}`,
     );
+  }
+
+  if (searchCase.expectedTopType && topHit?.type !== searchCase.expectedTopType) {
+    failures.push(
+      `premier type attendu : ${searchCase.expectedTopType}, reçu : ${topHit?.type ?? "aucun"}`,
+    );
+  }
+
+  if (searchCase.expectRelatedTest && !topHit?.relatedTest) {
+    failures.push("le résultat produit enrichi ne contient pas son test associé");
   }
 
   if (

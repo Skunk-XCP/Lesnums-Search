@@ -9,11 +9,17 @@ export type SearchDocument = {
   type: ContentType;
   brand?: string;
   model?: string;
+  relatedModels?: string[];
+  referenceKeys?: string[];
   productName?: string;
   category?: string;
   description?: string;
   content?: string;
   publishedAt?: string;
+  imageUrl?: string;
+  priceFrom?: number;
+  currency?: string;
+  priceCompareUrl?: string;
 };
 
 export type MatchReason =
@@ -35,6 +41,12 @@ export type SearchHit = SearchDocument & {
   >;
   matchedFields: Array<keyof SearchDocument>;
   matchReason: MatchReason;
+  relatedTest?: {
+    id: string;
+    title: string;
+    url: string;
+    publishedAt?: string;
+  };
 };
 
 export type SearchApiResponse = {
@@ -46,6 +58,21 @@ export type SearchApiResponse = {
 
 export type SearchApiError = {
   error: string;
+};
+
+export type SearchSuggestion = {
+  id: string;
+  query: string;
+  name: string;
+  kind: "brand" | "product";
+  brand?: string;
+  model?: string;
+  category?: string;
+  type?: ContentType;
+};
+
+export type SuggestionsApiResponse = {
+  suggestions: SearchSuggestion[];
 };
 
 export function isContentType(value: string): value is ContentType {

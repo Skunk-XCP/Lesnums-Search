@@ -94,8 +94,11 @@ Ouvrez ensuite [http://localhost:3000](http://localhost:3000).
 ```bash
 npm run dev           # serveur de développement
 npm run crawl         # collecte limitée des métadonnées publiques
+npm run crawl:reference -- "Sony WH-1000XM6" # crawl ciblé d'une référence
+npm run crawl:references # crawl des références de démonstration
 npm run search:index  # configuration et alimentation de Meilisearch
 npm run search:benchmark # benchmark contre l'API locale
+npm run analyze:references # classement des références les plus riches
 npm run typecheck     # vérification TypeScript
 npm run lint          # ESLint
 npm run build         # build de production Next.js

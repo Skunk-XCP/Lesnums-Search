@@ -46,17 +46,28 @@ export function SearchResults({ response, error, hasSearched, isLoading }: Searc
     );
   }
 
+  const mergedTestIds = new Set(
+    response.hits.flatMap((hit) =>
+      hit.type === "product" && hit.relatedTest ? [hit.relatedTest.id] : [],
+    ),
+  );
+  const visibleHits = response.hits.filter((hit) => !mergedTestIds.has(hit.id));
+  const visibleTotal = Math.max(
+    0,
+    response.estimatedTotalHits - (response.hits.length - visibleHits.length),
+  );
+
   return (
     <section className="mt-7" aria-live="polite">
       <div className="mb-3 flex items-baseline justify-between border-b-2 border-neutral-900 pb-3">
         <p className="text-sm text-neutral-600">
-          <strong className="text-lg font-black text-neutral-950">{response.estimatedTotalHits}</strong>{" "}
-          {response.estimatedTotalHits > 1 ? "résultats" : "résultat"}
+          <strong className="text-lg font-black text-neutral-950">{visibleTotal}</strong>{" "}
+          {visibleTotal > 1 ? "résultats" : "résultat"}
         </p>
         <p className="font-mono text-[11px] text-neutral-500">{response.processingTimeMs} ms</p>
       </div>
       <div>
-        {response.hits.map((result) => (
+        {visibleHits.map((result) => (
           <SearchResult key={result.id} result={result} />
         ))}
       </div>

@@ -28,6 +28,12 @@ export function normalizeSearchText(value: string) {
     .trim();
 }
 
+export function createReferenceKey(value: string) {
+  return normalizeSearchText(value)
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 export function containsWholeTerm(text: string, term: string) {
   const normalizedText = normalizeSearchText(text);
   const normalizedTerm = normalizeSearchText(term);

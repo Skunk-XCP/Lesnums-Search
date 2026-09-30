@@ -17,6 +17,10 @@ function isString(value: unknown): value is string {
   return typeof value === "string";
 }
 
+function isFiniteNumber(value: unknown): value is number {
+  return typeof value === "number" && Number.isFinite(value);
+}
+
 function isSearchDocument(value: unknown): value is SearchDocument {
   if (!value || typeof value !== "object") return false;
 
@@ -29,11 +33,21 @@ function isSearchDocument(value: unknown): value is SearchDocument {
     CONTENT_TYPES.includes(document.type as SearchDocument["type"]) &&
     (document.brand === undefined || isString(document.brand)) &&
     (document.model === undefined || isString(document.model)) &&
+    (document.relatedModels === undefined ||
+      (Array.isArray(document.relatedModels) &&
+        document.relatedModels.every(isString))) &&
+    (document.referenceKeys === undefined ||
+      (Array.isArray(document.referenceKeys) &&
+        document.referenceKeys.every(isString))) &&
     (document.productName === undefined || isString(document.productName)) &&
     (document.category === undefined || isString(document.category)) &&
     (document.description === undefined || isString(document.description)) &&
     (document.content === undefined || isString(document.content)) &&
-    (document.publishedAt === undefined || isString(document.publishedAt))
+    (document.publishedAt === undefined || isString(document.publishedAt)) &&
+    (document.imageUrl === undefined || isString(document.imageUrl)) &&
+    (document.priceFrom === undefined || isFiniteNumber(document.priceFrom)) &&
+    (document.currency === undefined || isString(document.currency)) &&
+    (document.priceCompareUrl === undefined || isString(document.priceCompareUrl))
   );
 }
 
@@ -77,13 +91,22 @@ async function main() {
     searchableAttributes: [
       "brand",
       "model",
+      "relatedModels",
+      "referenceKeys",
       "productName",
       "title",
       "category",
       "description",
       "content",
     ],
-    filterableAttributes: ["type", "brand", "model", "category"],
+    filterableAttributes: [
+      "type",
+      "brand",
+      "model",
+      "relatedModels",
+      "referenceKeys",
+      "category",
+    ],
     sortableAttributes: ["publishedAt"],
     synonyms: {
       tv: ["téléviseur"],
@@ -94,7 +117,7 @@ async function main() {
     },
     typoTolerance: {
       enabled: true,
-      disableOnAttributes: ["model"],
+      disableOnAttributes: ["model", "relatedModels", "referenceKeys"],
     },
   });
   await client.tasks.waitForTask(settingsTask.taskUid);

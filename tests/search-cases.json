@@ -9,6 +9,8 @@
     "query": "lg 83g6",
     "expectedTopBrand": "LG",
     "expectedModel": "83G6",
+    "expectedTopType": "product",
+    "expectRelatedTest": true,
     "minimumHits": 2,
     "requireAllHitsModel": true,
     "forbiddenTitleTerms": ["S20A", "Gram Superslim", "55G5"]
@@ -21,7 +23,11 @@
   },
   {
     "query": "sony wh-1000xm6",
-    "maximumHits": 0
+    "expectedTopBrand": "Sony",
+    "expectedModel": "WH-1000XM6",
+    "expectedTopType": "product",
+    "expectRelatedTest": true,
+    "minimumHits": 2
   },
   {
     "query": "samsung",
@@ -35,6 +41,14 @@
     "expectedModel": "S95F",
     "minimumHits": 1,
     "requireAllHitsModel": true
+  },
+  {
+    "query": "samsung galaxy s25 ultra",
+    "expectedTopBrand": "Samsung",
+    "expectedModel": "S25",
+    "expectedTopType": "product",
+    "expectRelatedTest": true,
+    "minimumHits": 2
   },
   {
     "query": "sony oled",

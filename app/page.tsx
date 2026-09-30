@@ -244,7 +244,14 @@ export default function Home() {
               <span className="mt-1 block h-[3px] w-10 bg-[#e30613]" />
             </button>
             <div className="min-w-0 w-full flex-1">
-              <SearchBar query={query} isLoading={isLoading} onQueryChange={setQuery} onSubmit={handleSubmit} />
+              <SearchBar
+                query={query}
+                isLoading={isLoading}
+                onQueryChange={setQuery}
+                onSubmit={handleSubmit}
+                onSelectSuggestion={(suggestionQuery) => void search(activeFilter, suggestionQuery)}
+                onClear={showHome}
+              />
             </div>
             <div className="hidden shrink-0 items-center gap-5 text-xs font-bold text-neutral-600 lg:flex">
               <span>Vidéo</span>

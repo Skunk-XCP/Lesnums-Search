@@ -1,5 +1,6 @@
 import {
   QUERY_CATEGORY_HINTS,
+  createReferenceKey,
   extractProductReference,
   getBoostedBrand,
   normalizeSearchText,
@@ -17,8 +18,6 @@ import {
 } from "@/src/types/search";
 
 const SEARCH_LIMIT = 50;
-const HIGHLIGHT_PRE_TAG = "<mark>";
-const HIGHLIGHT_POST_TAG = "</mark>";
 const MATCHABLE_FIELDS: Array<keyof SearchDocument> = [
   "title",
   "brand",
@@ -46,6 +45,12 @@ function createBrandFilter(brand: string, type: string) {
 
 function createProductFilter(brand: string, model: string, type: string) {
   const filters = [`brand = "${brand}"`, `model = "${model}"`];
+  if (type) filters.push(`type = "${type}"`);
+  return filters.join(" AND ");
+}
+
+function createReferenceFilter(referenceKey: string, type: string) {
+  const filters = [`referenceKeys = "${referenceKey}"`];
   if (type) filters.push(`type = "${type}"`);
   return filters.join(" AND ");
 }
@@ -115,11 +120,17 @@ function toSearchHit(hit: MeilisearchHit, isBrandBoosted: boolean): SearchHit {
     type: hit.type,
     ...(hit.brand ? { brand: hit.brand } : {}),
     ...(hit.model ? { model: hit.model } : {}),
+    ...(hit.relatedModels ? { relatedModels: hit.relatedModels } : {}),
+    ...(hit.referenceKeys ? { referenceKeys: hit.referenceKeys } : {}),
     ...(hit.productName ? { productName: hit.productName } : {}),
     ...(hit.category ? { category: hit.category } : {}),
     ...(hit.description ? { description: hit.description } : {}),
     ...(hit.content ? { content: hit.content } : {}),
     ...(hit.publishedAt ? { publishedAt: hit.publishedAt } : {}),
+    ...(hit.imageUrl ? { imageUrl: hit.imageUrl } : {}),
+    ...(hit.priceFrom !== undefined ? { priceFrom: hit.priceFrom } : {}),
+    ...(hit.currency ? { currency: hit.currency } : {}),
+    ...(hit.priceCompareUrl ? { priceCompareUrl: hit.priceCompareUrl } : {}),
     formatted: {
       title: hit._formatted?.title ?? hit.title,
       ...(hit.brand ? { brand: hit._formatted?.brand ?? hit.brand } : {}),
@@ -142,21 +153,56 @@ function toSearchHit(hit: MeilisearchHit, isBrandBoosted: boolean): SearchHit {
   };
 }
 
-const highlightOptions = {
-  attributesToHighlight: [
-    "title",
-    "brand",
-    "model",
-    "productName",
-    "category",
-    "description",
-    "content",
-  ],
+function haveSameReference(first: SearchHit, second: SearchHit) {
+  return Boolean(
+    first.brand &&
+      second.brand &&
+      first.model &&
+      second.model &&
+      normalizeSearchText(first.brand) === normalizeSearchText(second.brand) &&
+      normalizeSearchText(first.model) === normalizeSearchText(second.model),
+  );
+}
+
+function attachCertainRelatedTest(
+  hits: SearchHit[],
+  additionalTests: SearchHit[] = [],
+) {
+  const products = hits.filter((hit) => hit.type === "product");
+  const tests = [...hits, ...additionalTests].filter(
+    (hit) => hit.type === "test" && products.some((product) => haveSameReference(product, hit)),
+  );
+
+  if (
+    products.length !== 1 ||
+    tests.length !== 1 ||
+    !haveSameReference(products[0], tests[0])
+  ) {
+    return hits;
+  }
+
+  const relatedTest = tests[0];
+  return hits.map((hit) =>
+    hit.id === products[0].id
+      ? {
+          ...hit,
+          relatedTest: {
+            id: relatedTest.id,
+            title: relatedTest.title,
+            url: relatedTest.url,
+            ...(relatedTest.publishedAt
+              ? { publishedAt: relatedTest.publishedAt }
+              : {}),
+          },
+        }
+      : hit,
+  );
+}
+
+const formattingOptions = {
   attributesToCrop: ["description", "content"],
   cropLength: 32,
   cropMarker: "…",
-  highlightPreTag: HIGHLIGHT_PRE_TAG,
-  highlightPostTag: HIGHLIGHT_POST_TAG,
   showMatchesPosition: true,
 };
 
@@ -191,22 +237,53 @@ export async function GET(request: Request) {
     const commonOptions = {
       limit: SEARCH_LIMIT,
       matchingStrategy: "all" as const,
-      ...highlightOptions,
+      ...formattingOptions,
     };
 
     if (boostedBrand && productReference) {
-      const productResult = await index.search<SearchDocument>(meilisearchQuery, {
+      const referenceKey = createReferenceKey(query);
+      const referenceResult = await index.search<SearchDocument>("", {
         ...commonOptions,
-        filter: createProductFilter(boostedBrand, productReference, type),
+        filter: createReferenceFilter(referenceKey, type),
       });
+      const hasStrictReferenceCorpus = referenceResult.hits.length > 0;
+      const [productResult, relatedTestResult] = await Promise.all([
+        hasStrictReferenceCorpus
+          ? Promise.resolve(referenceResult)
+          : index.search<SearchDocument>(meilisearchQuery, {
+              ...commonOptions,
+              filter: createProductFilter(boostedBrand, productReference, type),
+            }),
+        type === "product"
+          ? index.search<SearchDocument>(hasStrictReferenceCorpus ? "" : meilisearchQuery, {
+              ...commonOptions,
+              filter: hasStrictReferenceCorpus
+                ? createReferenceFilter(referenceKey, "test")
+                : createProductFilter(boostedBrand, productReference, "test"),
+            })
+          : Promise.resolve(undefined),
+      ]);
+      const exactProductHits = productResult.hits
+        .map((hit) => toSearchHit(hit as MeilisearchHit, true))
+        .sort(
+          (firstHit, secondHit) =>
+            Number(secondHit.type === "product") - Number(firstHit.type === "product"),
+        );
+      const relatedTestHits = (relatedTestResult?.hits ?? []).map((hit) =>
+        toSearchHit(hit as MeilisearchHit, true),
+      );
+      const enrichedHits =
+        type === "test"
+          ? exactProductHits
+          : attachCertainRelatedTest(exactProductHits, relatedTestHits);
 
       return Response.json({
-        hits: productResult.hits.map((hit) =>
-          toSearchHit(hit as MeilisearchHit, true),
-        ),
+        hits: enrichedHits,
         estimatedTotalHits:
           productResult.estimatedTotalHits ?? productResult.hits.length,
-        processingTimeMs: productResult.processingTimeMs,
+        processingTimeMs:
+          productResult.processingTimeMs +
+          (relatedTestResult?.processingTimeMs ?? 0),
         query,
       } satisfies SearchApiResponse);
     }
