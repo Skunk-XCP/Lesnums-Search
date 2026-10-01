@@ -1,0 +1,7 @@
+FROM getmeili/meilisearch:v1.15
+
+ENV MEILI_ENV=production \
+    MEILI_NO_ANALYTICS=true \
+    MEILI_HTTP_ADDR=0.0.0.0:7700
+
+EXPOSE 7700

@@ -10,7 +10,6 @@ import { CONTENT_TYPES, type SearchDocument } from "../src/types/search";
 loadEnvConfig(process.cwd());
 
 const DATA_PATH = path.join(process.cwd(), "data", "lesnumeriques.json");
-const DEFAULT_HOST = "http://localhost:7700";
 const DEFAULT_INDEX = "contents";
 
 function isString(value: unknown): value is string {
@@ -74,9 +73,14 @@ async function readDocuments(): Promise<SearchDocument[]> {
 }
 
 async function main() {
-  const host = process.env.MEILISEARCH_HOST?.trim() || DEFAULT_HOST;
+  const host = process.env.MEILISEARCH_HOST?.trim();
   const apiKey = process.env.MEILISEARCH_API_KEY?.trim();
   const indexName = process.env.MEILISEARCH_INDEX?.trim() || DEFAULT_INDEX;
+
+  if (!host) {
+    throw new Error("La variable d'environnement MEILISEARCH_HOST est requise.");
+  }
+
   const client = new Meilisearch({ host, ...(apiKey ? { apiKey } : {}) });
   const index = client.index<SearchDocument>(indexName);
   const documents = await readDocuments();

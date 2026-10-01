@@ -34,11 +34,11 @@ Les valeurs proposées fonctionnent avec le fichier Docker Compose :
 
 ```env
 MEILISEARCH_HOST=http://localhost:7700
-MEILISEARCH_API_KEY=local-development-key
+MEILISEARCH_API_KEY=
 MEILISEARCH_INDEX=contents
 ```
 
-La clé reste exclusivement côté serveur. En production, remplacez-la par un secret robuste.
+En local, laissez `MEILISEARCH_API_KEY` vide si Meilisearch n'est pas protégé, ou utilisez la clé configurée sur votre instance. La clé reste exclusivement côté serveur.
 
 ### 2. Démarrer Meilisearch
 
@@ -111,6 +111,35 @@ Pour arrêter Meilisearch sans supprimer les données :
 docker compose down
 ```
 
+## Déploiement Vercel et Render
+
+L'application Next.js et Meilisearch se déploient comme deux services séparés :
+
+- Vercel exécute Next.js et ses Route Handlers ;
+- Render exécute uniquement Meilisearch avec `Dockerfile.meilisearch`.
+
+Sur Render, créez un service Docker utilisant `Dockerfile.meilisearch`, exposez le port `7700`, définissez une valeur robuste pour `MEILI_MASTER_KEY` et montez un disque persistant sur `/meili_data`. Le Dockerfile écoute sur `0.0.0.0:7700` et ne contient aucune clé.
+
+Sur Vercel, configurez les variables serveur suivantes pour les environnements concernés :
+
+```env
+MEILISEARCH_HOST=https://xxxxx.onrender.com
+MEILISEARCH_API_KEY=une-cle-de-recherche
+MEILISEARCH_INDEX=contents
+```
+
+Utilisez de préférence une clé Meilisearch limitée à la recherche pour Vercel. La clé maître Render ne doit servir qu'à l'administration et à l'indexation. Aucune de ces variables ne doit être préfixée par `NEXT_PUBLIC_`.
+
+Pour indexer l'instance Render depuis PowerShell sans modifier le code :
+
+```powershell
+$env:MEILISEARCH_HOST="https://xxxxx.onrender.com"
+$env:MEILISEARCH_API_KEY="votre-cle-admin-temporaire"
+npm run search:index
+```
+
+Le script charge aussi `.env.local` grâce à `@next/env`, ce qui permet de choisir l'instance locale ou distante uniquement par configuration.
+
 ## API de recherche
 
 Le Route Handler `GET /api/search` accepte :
@@ -160,6 +189,7 @@ src/
 ├── lib/meilisearch.ts        # client Meilisearch côté serveur
 └── types/search.ts           # modèle et contrats d'API
 docker-compose.yml            # service Meilisearch uniquement
+Dockerfile.meilisearch        # image Meilisearch pour Render
 tests/search-cases.json       # requêtes et attentes du benchmark
 ```
 
@@ -172,6 +202,6 @@ Le crawler reste entièrement séparé de l'API et de l'interface. Il produit le
 - Aucun mécanisme de planification, de crawl incrémental ou de reprise n'est encore prévu.
 - Le benchmark couvre un premier ensemble de cas déterministes, sans constituer encore un score global de pertinence.
 - L'interface ne propose ni pagination, ni filtres par marque ou catégorie.
-- Le déploiement de l'application et la sécurisation d'une instance Meilisearch publique ne sont pas couverts.
+- La création et la rotation des clés Meilisearch restent à gérer sur Render.
 
 Les étapes futures pourront ajouter une source de données publiques, des recherches de référence et une comparaison de pertinence, tout en conservant le contrat `SearchDocument` actuel.
