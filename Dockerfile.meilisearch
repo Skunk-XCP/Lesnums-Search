@@ -1,9 +1,13 @@
 FROM getmeili/meilisearch:v1.15
 
+COPY meilisearch/bootstrap.dump /bootstrap/contents.dump
+
 ENV MEILI_ENV=production \
     MEILI_NO_ANALYTICS=true \
     MEILI_HTTP_ADDR=0.0.0.0:7700 \
     MEILI_MAX_INDEXING_MEMORY=256Mb \
-    MEILI_MAX_INDEXING_THREADS=1
+    MEILI_MAX_INDEXING_THREADS=1 \
+    MEILI_IMPORT_DUMP=/bootstrap/contents.dump \
+    MEILI_IGNORE_DUMP_IF_DB_EXISTS=true
 
 EXPOSE 7700

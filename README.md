@@ -121,7 +121,9 @@ L'application Next.js et Meilisearch se déploient comme deux services séparés
 - Vercel exécute Next.js et ses Route Handlers ;
 - Render exécute uniquement Meilisearch avec `Dockerfile.meilisearch`.
 
-Sur Render, créez un service Docker utilisant `Dockerfile.meilisearch`, exposez le port `7700`, définissez une valeur robuste pour `MEILI_MASTER_KEY` et montez un disque persistant sur `/meili_data`. Le Dockerfile écoute sur `0.0.0.0:7700`, limite l'indexation à 256 MB de mémoire et un thread pour rester sous la limite du plan gratuit, et ne contient aucune clé.
+Sur Render, créez un service Docker utilisant `Dockerfile.meilisearch`, exposez le port `7700` et définissez une valeur robuste pour `MEILI_MASTER_KEY`. Le Dockerfile écoute sur `0.0.0.0:7700`, limite l'indexation à 256 MB de mémoire et un thread pour rester sous la limite du plan gratuit, et ne contient aucune clé.
+
+L'image embarque `meilisearch/bootstrap.dump`, un dump sans secret contenant l'index `contents`, ses réglages et le corpus de démonstration. Au démarrage sur un système de fichiers vierge, Meilisearch importe officiellement ce dump avant de devenir disponible. Si une base existe déjà dans `/meili_data`, elle est conservée et le dump est ignoré. Cela restaure automatiquement les données après un redémarrage sur le stockage éphémère de Render Free.
 
 Sur Vercel, configurez les variables serveur suivantes pour les environnements concernés :
 
@@ -194,6 +196,7 @@ src/
 └── types/search.ts           # modèle et contrats d'API
 docker-compose.yml            # service Meilisearch uniquement
 Dockerfile.meilisearch        # image Meilisearch pour Render
+meilisearch/bootstrap.dump    # index de démonstration restauré au démarrage
 tests/search-cases.json       # requêtes et attentes du benchmark
 ```
 

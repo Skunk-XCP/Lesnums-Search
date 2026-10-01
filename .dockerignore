@@ -1,0 +1,4 @@
+**
+!Dockerfile.meilisearch
+!meilisearch/
+!meilisearch/bootstrap.dump
