@@ -36,6 +36,7 @@ Les valeurs proposées fonctionnent avec le fichier Docker Compose :
 MEILISEARCH_HOST=http://localhost:7700
 MEILISEARCH_API_KEY=
 MEILISEARCH_INDEX=contents
+MEILISEARCH_BATCH_SIZE=25
 ```
 
 En local, laissez `MEILISEARCH_API_KEY` vide si Meilisearch n'est pas protégé, ou utilisez la clé configurée sur votre instance. La clé reste exclusivement côté serveur.
@@ -81,6 +82,8 @@ Le script lit `data/lesnumeriques.json`, valide les documents, supprime les anci
 
 La tolérance aux fautes de frappe native de Meilisearch reste active.
 
+Les documents sont envoyés séquentiellement par lots de 25, avec attente de la tâche Meilisearch et une courte pause entre chaque lot. `MEILISEARCH_BATCH_SIZE` permet d'ajuster cette taille sans modifier le code.
+
 ### 6. Démarrer l'application
 
 ```bash
@@ -118,7 +121,7 @@ L'application Next.js et Meilisearch se déploient comme deux services séparés
 - Vercel exécute Next.js et ses Route Handlers ;
 - Render exécute uniquement Meilisearch avec `Dockerfile.meilisearch`.
 
-Sur Render, créez un service Docker utilisant `Dockerfile.meilisearch`, exposez le port `7700`, définissez une valeur robuste pour `MEILI_MASTER_KEY` et montez un disque persistant sur `/meili_data`. Le Dockerfile écoute sur `0.0.0.0:7700` et ne contient aucune clé.
+Sur Render, créez un service Docker utilisant `Dockerfile.meilisearch`, exposez le port `7700`, définissez une valeur robuste pour `MEILI_MASTER_KEY` et montez un disque persistant sur `/meili_data`. Le Dockerfile écoute sur `0.0.0.0:7700`, limite l'indexation à 256 MB de mémoire et un thread pour rester sous la limite du plan gratuit, et ne contient aucune clé.
 
 Sur Vercel, configurez les variables serveur suivantes pour les environnements concernés :
 
@@ -135,6 +138,7 @@ Pour indexer l'instance Render depuis PowerShell sans modifier le code :
 ```powershell
 $env:MEILISEARCH_HOST="https://xxxxx.onrender.com"
 $env:MEILISEARCH_API_KEY="votre-cle-admin-temporaire"
+$env:MEILISEARCH_BATCH_SIZE="25"
 npm run search:index
 ```
 
